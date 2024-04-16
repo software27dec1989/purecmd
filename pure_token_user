@@ -1,0 +1,30 @@
+import requests
+
+def generate_api_token(pure_storage_address, pure_username, pure_password):
+    # Construct the authentication URL
+    auth_url = f"https://{pure_storage_address}/api/1.19/auth/apitoken"
+
+    # Send a POST request with the username and password to generate the API token
+    response = requests.post(auth_url, data={'username': pure_username, 'password': pure_password})
+
+    # Check if the request was successful
+    if response.status_code == 200:
+        # Extract the API token from the response
+        api_token = response.json()["api_token"]
+        return api_token
+    else:
+        # If the request was not successful, print the error message
+        print(f"Failed to generate API token: {response.text}")
+        return None
+
+# Example usage
+if __name__ == "__main__":
+    pure_storage_address = input("Enter Pure Storage address: ")
+    pure_username = input("Enter username: ")
+    pure_password = input("Enter password: ")
+
+    api_token = generate_api_token(pure_storage_address, pure_username, pure_password)
+    if api_token:
+        print(f"Generated API token: {api_token}")
+    else:
+        print("Failed to generate API token.")
