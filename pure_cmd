@@ -1,0 +1,17 @@
+---
+- name: Run purehost list command
+  hosts: localhost
+  gather_facts: no
+
+  tasks:
+    - name: Get host list
+      purefa:
+        api_token: "{{ pure_api_token }}"
+        controller: "{{ pure_controller }}"
+        command: purecmd
+        args:
+          cmd: purehost list
+      register: host_list_output
+
+    - debug:
+        var: host_list_output.stdout_lines
